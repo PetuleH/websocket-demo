@@ -1,2 +1,2 @@
 # websocket-demo
-test
+It is necessary Redis + Puma
