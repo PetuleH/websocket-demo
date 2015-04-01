@@ -1,0 +1,47 @@
+<div class="panel panel-info">
+
+  <div class="panel-heading">RECENT CHAT HISTORY <%=current_user.email%></div>
+  <div class="panel-body">
+    <ul class="media-list">
+        
+    </ul>
+  </div>
+  <div class="panel-footer">
+    <form class="chat">
+    <div class="input-group">
+      
+        <input type="hidden" id="user" name="user" value="<%=current_user.email%>" />
+      <input type="text" class="form-control" name="msg" placeholder="Enter Message" id="msg" autofocus>
+      
+        <span class="input-group-btn">
+          <button class="btn btn-info" type="submit">SEND</button>
+        </span>
+      
+    </div>
+      </form>
+  </div>
+</div>
+
+
+<script>
+  $(document).ready(function() {
+    // reading
+    var ws = new WebSocket("ws://" + location.host + "/chat");    
+    ws.onmessage = function(event) {    
+      if (event.data.length){
+         var i =($(".media").length) +1
+        
+        var content = "<%= escape_javascript(  render :partial => 'chat/message') %>";
+        var test = JSON.parse(event.data)
+        //console.log(test.user)
+       
+        $(".media-list").append("<li class='media' id='li-msg-"+i+"'>"+content+"</li>")        
+        $("#li-msg-"+i+" .msg").html(test.message)
+        $("#li-msg-"+i+" .user-span").html(test.user)
+        var date = new Date();
+        $("#li-msg-"+i+" .time-span").html( date.toLocaleDateString("en-US")+" "+date.toLocaleTimeString("en-US"))
+      }
+    };
+
+  });
+</script>
