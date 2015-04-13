@@ -1,6 +1,6 @@
 $ ->
-  socket = new WebSocket "ws://#{window.location.host}/chat"
-
+  #socket = new WebSocket "ws://#{window.location.host}/chat"
+  socket = new WebSocket "ws://#{window.location.host}/send_message"
   socket.onmessage = (event) ->
     #if event.data.length
       #console.log(event)
